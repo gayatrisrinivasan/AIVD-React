@@ -1,0 +1,273 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.container {
+    max-width: 800px;
+    margin: 100px auto 50px; /* Adjusted margin to account for fixed navbar */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.upload-container {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    margin-bottom: 20px;
+}
+
+.upload-container:hover {
+    border-color: #2563eb;
+}
+
+.upload-icon {
+    font-size: 48px;
+    color: #2563eb;
+    margin-bottom: 10px;
+}
+
+#preview-container {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#image-preview {
+    max-width: 100%;
+    max-height: 300px;
+    margin: 0 auto;
+    display: block;
+    border-radius: 8px;
+}
+
+.detect-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.detect-btn:hover {
+    background-color: #1d4bb8;
+}
+
+#results-container {
+    display: none;
+    margin-top: 20px;
+}
+
+.violation-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.violation-card.high-confidence {
+    border-left: 5px solid #28a745;
+}
+
+.violation-card.medium-confidence {
+    border-left: 5px solid #ffc107;
+}
+
+.violation-title {
+    font-weight: bold;
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.violation-description {
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.violation-details {
+    margin-top: 10px;
+    color: #555;
+    font-size: 14px;
+}
+
+.timestamp {
+    margin-top: 20px;
+    color: #888;
+    text-align: center;
+    font-size: 12px;
+}
+
+#location-card {
+    background-color: #f9f9f9;
+    border: 1px solid #007bff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+#location-card h3 {
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+#location-card p {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.notify-btn {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.notify-btn:hover {
+    background-color: #218838;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.button-container button {
+    margin: 5px;
+    padding: 10px 20px;
+    background-color: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-container button:hover {
+    background-color: #1d4bb8;
+}
+
+#smsForm {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#smsForm label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+#smsForm input {
+    padding: 10px;
+    width: calc(100% - 22px);
+    max-width: 300px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+#smsForm button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#smsForm button:hover {
+    background-color: #218838;
+}
+
+.navbar {
+    background-color: #fff;
+    padding: 15px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li {
+    margin: 0 20px;
+}
+
+.navbar ul li a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.navbar ul li a:hover {
+    color: #1d4bb8;
+}

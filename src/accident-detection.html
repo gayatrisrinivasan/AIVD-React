@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accident Detection</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <ul>
+                <li><a href="accident-detection.html">Accident Detection</a></li>
+                <li><a href="area-view.html">Area View</a></li>
+                <li><a href="index.html">Violation Detection</a></li>
+            </ul>
+        </nav>
+
+        <h1>Accident Detection System</h1>
+
+        <div class="upload-container" onclick="document.getElementById('file-input').click()">
+            <div class="upload-icon">🖼️</div>
+            <p>Click to upload an image or drag and drop</p>
+            <input type="file" id="file-input" accept="image/*" style="display: none">
+        </div>
+
+        <div id="preview-container">
+            <img id="image-preview" src="" alt="Preview">
+            <button class="detect-btn" onclick="detectAccidents()">Detect Accidents</button>
+        </div>
+
+        <div id="results-container">
+            <h2>Detection Results</h2>
+            <div id="accidents-list"></div>
+            <p class="timestamp" id="timestamp"></p>
+        </div>
+
+        <div class="button-container">
+            <button type="button" onclick="setPhoneNumber('+917993513295')">Helpline 1</button>
+            <button type="button" onclick="setPhoneNumber('+919000216641')">Helpline 2</button>
+            <button type="button" onclick="setPhoneNumber('+1123456789')">Helpline 3</button>
+        </div>
+        <form id="smsForm">
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" value="+918309614765" readonly>
+            <button type="submit">Send SMS</button>
+        </form>
+    </div>
+    <script src="scripts/app.js"></script>
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const previewContainer = document.getElementById('preview-container');
+        const imagePreview = document.getElementById('image-preview');
+        const resultsContainer = document.getElementById('results-container');
+        const accidentsList = document.getElementById('accidents-list');
+        const timestampElement = document.getElementById('timestamp');
+
+        // Mock accidents data
+        const mockAccidents = [
+            {
+                type: 'Collision',
+                description: 'Two vehicles collided',
+                location: 'Main Street',
+                confidence: 89.2
+            },
+            {
+                type: 'Passenger injured',
+                description: 'Passenger/pedestrian injured',
+                location: 'Main Street',
+                confidence: 89.7
+            }
+        ];
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    imagePreview.src = event.target.result;
+                    previewContainer.style.display = 'block';
+                    resultsContainer.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function detectAccidents() {
+            resultsContainer.style.display = 'block';
+            accidentsList.innerHTML = '';
+
+            mockAccidents.forEach(accident => {
+                const accidentElement = document.createElement('div');
+                accidentElement.className = `violation-card ${accident.confidence > 90 ? 'high-confidence' : 'medium-confidence'}`;
+                
+                accidentElement.innerHTML = `
+                    <div class="violation-title">${accident.type}</div>
+                    <div class="violation-description">${accident.description}</div>
+                    <div class="violation-details">
+                        <p>Location: ${accident.location}</p>
+                        <p>Confidence: ${accident.confidence}%</p>
+                    </div>
+                `;
+
+                accidentsList.appendChild(accidentElement);
+            });
+
+            timestampElement.textContent = `Detection completed at: ${new Date().toLocaleString()}`;
+
+            // Show the location card
+            document.getElementById('location-card').classList.remove('hidden');
+        }
+
+        // Drag and drop functionality
+        const uploadContainer = document.querySelector('.upload-container');
+
+        uploadContainer.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadContainer.style.borderColor = '#2563eb';
+        });
+
+        uploadContainer.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadContainer.style.borderColor = '#ccc';
+        });
+
+        uploadContainer.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadContainer.style.borderColor = '#ccc';
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                fileInput.files = e.dataTransfer.files;
+                const event = new Event('change');
+                fileInput.dispatchEvent(event);
+            }
+        });
+
+        function setPhoneNumber(number) {
+            document.getElementById('phoneNumber').value = number;
+        }
+    </script>
+</body>
+</html>

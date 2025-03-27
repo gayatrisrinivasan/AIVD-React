@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Violation Detection</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <ul>
+                <li><a href="accident-detection.html">Accident Detection</a></li>
+                <li><a href="area-view.html">Area View</a></li>
+                <li><a href="index.html">Violation Detection</a></li>
+            </ul>
+        </nav>
+
+        <h1>Traffic Violation Detection System</h1>
+
+        <div class="upload-container" onclick="document.getElementById('file-input').click()">
+            <div class="upload-icon">🖼️</div>
+            <p>Click to upload an image or drag and drop</p>
+            <input type="file" id="file-input" accept="image/*" style="display: none">
+        </div>
+
+        <div id="preview-container">
+            <img id="image-preview" src="" alt="Preview">
+            <button class="detect-btn" onclick="detectViolations()">Detect Violations</button>
+        </div>
+
+        <div id="results-container">
+            <h2>Detection Results</h2>
+            <div id="violations-list"></div>
+            <p class="timestamp" id="timestamp"></p>
+        </div>
+
+        <div class="button-container">
+            <button type="button" class="notify-btn" onclick="notifyVehicleOwner()">Notify Vehicle Owner</button>
+        </div>
+    </div>
+    <script src="scripts/app.js"></script>
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const previewContainer = document.getElementById('preview-container');
+        const imagePreview = document.getElementById('image-preview');
+        const resultsContainer = document.getElementById('results-container');
+        const violationsList = document.getElementById('violations-list');
+        const timestampElement = document.getElementById('timestamp');
+
+        // Mock violations data
+        const mockViolations = [
+            {
+                type: 'No Helmet',
+                description: 'Rider detected without protective helmet',
+                location: 'Motorcycle rider',
+                confidence: 88.5
+            },
+            {
+                type: 'Overloading',
+                description: 'Vehicle carrying more than permitted passengers (3 detected)',
+                location: 'Motorcycle',
+                confidence: 92.3
+            },
+            {
+                type: 'Use of phone while driving',
+                description: 'Driver on phone/taking a call while driving',
+                location: 'Kukatpally Crossroad',
+                confidence: 40.6
+            }
+        ];
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    imagePreview.src = event.target.result;
+                    previewContainer.style.display = 'block';
+                    resultsContainer.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function detectViolations() {
+            resultsContainer.style.display = 'block';
+            violationsList.innerHTML = '';
+
+            mockViolations.forEach(violation => {
+                const violationElement = document.createElement('div');
+                violationElement.className = `violation-card ${violation.confidence > 95 ? 'high-confidence' : 'medium-confidence'}`;
+                
+                violationElement.innerHTML = `
+                    <div class="violation-title">${violation.type}</div>
+                    <div class="violation-description">${violation.description}</div>
+                    <div class="violation-details">
+                        <p>Location: ${violation.location}</p>
+                        <p>Confidence: ${violation.confidence}%</p>
+                    </div>
+                `;
+
+                violationsList.appendChild(violationElement);
+            });
+
+            timestampElement.textContent = `Detection completed at: ${new Date().toLocaleString()}`;
+
+            // Show the location card
+            document.getElementById('location-card').classList.remove('hidden');
+        }
+
+        // Drag and drop functionality
+        const uploadContainer = document.querySelector('.upload-container');
+
+        uploadContainer.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadContainer.style.borderColor = '#2563eb';
+        });
+
+        uploadContainer.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadContainer.style.borderColor = '#ccc';
+        });
+
+        uploadContainer.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadContainer.style.borderColor = '#ccc';
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                fileInput.files = e.dataTransfer.files;
+                const event = new Event('change');
+                fileInput.dispatchEvent(event);
+            }
+        });
+
+        function notifyVehicleOwner() {
+            alert('Vehicle owner has been notified.');
+        }
+    </script>
+</body>
+</html>
